@@ -33,7 +33,7 @@ const EditPrompt = () => {
     // console.log();
     if (promptId) getPromptDetails();
   }, [promptId]);
-
+  //@ts-ignore
   const updatePrompt = async (e) => {
     e.preventDefault();
     setSubmitting(true);
