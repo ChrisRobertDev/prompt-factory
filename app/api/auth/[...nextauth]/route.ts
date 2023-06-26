@@ -9,16 +9,19 @@ connectToDB();
 const handler = NextAuth({
   providers: [
     GoogleProvider({
+      //@ts-ignore
       clientId: process.env.GOOGLE_CLIENT_ID,
+      //@ts-ignore
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   callbacks: {
     async session({ session }) {
       const sessionUser = await User.findOne({
+        //@ts-ignore
         email: session.user.email,
       });
-
+      //@ts-ignore
       session.user.id = sessionUser._id.toString();
 
       return session;
@@ -27,13 +30,17 @@ const handler = NextAuth({
       try {
         //check if user already exists
         const userExists = await User.findOne({
+          //@ts-ignore
           email: profile.email,
         });
         //if not create new user
         if (!userExists) {
           await User.create({
+            //@ts-ignore
             email: profile.email,
+            //@ts-ignore
             username: profile.name.replace(/\s/g, "").toLowerCase(),
+            //@ts-ignore
             image: profile.picture,
           });
         }

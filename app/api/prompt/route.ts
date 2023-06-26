@@ -1,6 +1,6 @@
 import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
-
+//@ts-ignore
 export const GET = async (request) => {
   try {
     await connectToDB();

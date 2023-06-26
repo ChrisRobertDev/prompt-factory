@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
+//@ts-ignore
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
   return (
     <section className="w-full max-w-full flex-start flex-col">

@@ -2,6 +2,7 @@ import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
 
 //GET
+//@ts-ignore
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
@@ -15,7 +16,7 @@ export const GET = async (request, { params }) => {
 };
 
 //PATCH
-
+//@ts-ignore
 export const PATCH = async (request, { params }) => {
   const { prompt, tag } = await request.json();
 
@@ -39,6 +40,7 @@ export const PATCH = async (request, { params }) => {
 };
 
 //DELETE
+//@ts-ignore
 export const DELETE = async (request, { params }) => {
   try {
     await connectToDB();

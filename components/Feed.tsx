@@ -2,8 +2,14 @@
 
 import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
+import { Prompt } from "@types";
 
-const PromptCardList = ({ data, handleTagClick }) => {
+interface PromptCardListProps {
+  data: Prompt[];
+  handleTagClick: (tagName: string) => void;
+}
+
+const PromptCardList = ({ data, handleTagClick }: PromptCardListProps) => {
   return (
     <div className="mt-16 prompt_layout">
       {data.map((post) => {
@@ -22,14 +28,28 @@ const PromptCardList = ({ data, handleTagClick }) => {
 const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
-  const [searchedResults, setSearchedResults] = useState([]);
-  const [posts, setPosts] = useState([]);
+  const [searchedResults, setSearchedResults] = useState<Prompt[]>([]);
+  const [posts, setPosts] = useState<Prompt[]>([]);
 
-  const handleSearchChange = (e) => {
+  const fetchPosts = async () => {
+    const response = await fetch("api/prompt", { method: "GET" });
+    const data = await response.json();
+    console.log("fetching feed posts");
+    console.log(data);
+    setPosts(data);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     clearTimeout(searchTimeout);
     setSearchText(e.target.value);
 
     setSearchTimeout(
+      // @ts-ignore
       setTimeout(() => {
         const searchResult = filterPrompts(e.target.value);
         setSearchedResults(searchResult);
@@ -41,7 +61,7 @@ const Feed = () => {
     const regex = new RegExp(searchText, "i");
     return posts.filter(
       (item) =>
-        regex.test(item.creator.username) ||
+        regex.test(item.creator.email) ||
         regex.test(item.tag) ||
         regex.test(item.prompt)
     );
@@ -52,18 +72,6 @@ const Feed = () => {
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
-
-  const fetchPosts = async () => {
-    const response = await fetch("api/prompt", { method: "GET" });
-    const data = await response.json();
-    // console.log("fetching feed posts");
-    // console.log(data);
-    setPosts(data);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   return (
     <section className="feed">

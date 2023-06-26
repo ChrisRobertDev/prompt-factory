@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Profile from "@components/Profile";
-
+//@ts-ignore
 const UserProfile = ({ params }) => {
   const [userPosts, setUserPosts] = useState([]);
 
   const searchParams = useSearchParams();
-  const userName = searchParams.get("name");
+  const userName = searchParams.get("name") || "";
 
   useEffect(() => {
     const fetchPosts = async () => {

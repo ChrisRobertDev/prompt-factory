@@ -5,30 +5,32 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Profile from "@components/Profile";
+import { Prompt } from "@types";
 
 const MyProfile = () => {
   const { data: session } = useSession();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Prompt[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     const fetchPosts = async () => {
+      //@ts-ignore
       const response = await fetch(`api/users/${session?.user.id}/posts`, {
         method: "GET",
       });
       const data = await response.json();
-      console.log("fetching profile posts");
-      console.log(data);
+      // console.log("fetching profile posts");
+      // console.log(data);
       setPosts(data);
     };
 
     fetchPosts();
   }, [session]);
 
-  const handleEdit = (post) => {
+  const handleEdit = (post: Prompt) => {
     router.push(`/update-prompt?id=${post._id}`);
   };
-  const handleDelete = async (post) => {
+  const handleDelete = async (post: Prompt) => {
     const hasConfirmed = confirm(
       "Are you sure you want to delete this prompt?"
     );

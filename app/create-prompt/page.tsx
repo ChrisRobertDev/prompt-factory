@@ -14,7 +14,7 @@ const CreatePrompt = () => {
     prompt: "",
     tag: "",
   });
-
+  //@ts-ignore
   const createPrompt = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -24,6 +24,7 @@ const CreatePrompt = () => {
         method: "POST",
         body: JSON.stringify({
           prompt: post.prompt,
+          //@ts-ignore
           userId: session?.user.id,
           tag: post.tag,
         }),
